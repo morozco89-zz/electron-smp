@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper teal lighten-2">
+            <a class="brand-logo center">Monitoreo</a>
+        </div>
+    </nav>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col s6">
+                <img src="" alt="photo" />
+            </div>
+            <div class="col s6">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <h4 id="name" style="margin: 0"></h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Edad</td>
+                        <td id="age"></td>
+                    </tr>
+                    <tr>
+                        <td>RH</td>
+                        <td id="rh"></td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td id="email"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 right-align">
+                <button type="button" id="btn-toggle-ecg" class="btn btn-large waves-effect waves-light grey darken-3">
+                    <i class="material-icons prefix" style="font-size: 2.25rem">favorite</i>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <canvas id="chartContainer" width="200" height="50"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Imports
+        const { remote, ipcRenderer } = require('electron')
+        const CanvasJS = require('../node_modules/chart.js/dist/Chart.js')
+
+        // View elements
+        const emailViewElement = document.querySelector('#email')
+        const nameViewElement = document.querySelector('#name')
+        const rhViewElement = document.querySelector('#rh')
+        const ageViewElement = document.querySelector('#age')
+        const photoViewElement = document.querySelector('img')
+        const ctxViewElement = document.getElementById('chartContainer');
+
+        const toggleECGBtn = document.getElementById('btn-toggle-ecg')
+
+        // Variables
+        const MAX_DATA_POINTS = 50
+        let patient;
+        let ecgDataBuffer = []
+        let isReadingECG = false
+
+        // Session
+        remote.session.defaultSession.cookies.get({name: 'patient'})
+            .then(patientCookie => {
+                patient = JSON.parse(patientCookie[0].value)
+                setPatientInfo()
+            })
+            .catch(e => {
+                console.log(e)
+                // location.href  = 'login.html'
+            })
+
+        // Events
+        ipcRenderer.on('ecg:read', (event, reading) => {
+            updateECG(reading)
+        })
+
+        toggleECGBtn.addEventListener('click', (e) => {
+            if (isReadingECG) {
+                stopReading(patient.ecg)
+            } else {
+                startReading(patient.ecg)
+            }
+
+            isReadingECG = !isReadingECG
+        })
+
+        // Init
+        const chart = new Chart(ctxViewElement, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'ECG',
+                    fill: false,
+                    borderColor: '#ffb74d',
+                    labels: [],
+                    data: [],
+                    showLine: true,
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display:false
+                        },
+                        ticks: {
+                            min: 0,
+                            max: MAX_DATA_POINTS,
+                            stepSize: 1,
+                            display: false
+                        }
+                    }],
+                }
+            }
+        });
+
+        // Functions
+        function setPatientInfo() {
+            emailViewElement.textContent = patient.email
+            nameViewElement.textContent = patient.name
+            rhViewElement.textContent = patient.rh
+            ageViewElement.textContent = patient.age
+            photoViewElement.src = `../assets/images/${patient.photo}`
+        }
+
+        function startReading(id) {
+            ipcRenderer.send('ecg:start-reading', id)
+        }
+
+        function stopReading() {
+            ipcRenderer.send('ecg:stop-reading')
+        }
+
+        function updateECG(reading) {
+            if (ecgDataBuffer.length === MAX_DATA_POINTS) {
+                ecgDataBuffer = []
+                chart.data.datasets.forEach((dataset) => {
+                    dataset.data = [];
+                });
+            } else {
+                chart.data.labels.push("");
+                chart.data.datasets.forEach((dataset) => {
+                    dataset.data.push({
+                        y: reading,
+                        x: ecgDataBuffer.length
+                    });
+                });
+                ecgDataBuffer.push(reading)
+            }
+
+            chart.update();
+        }
+
+    </script>
+</body>
+</html>

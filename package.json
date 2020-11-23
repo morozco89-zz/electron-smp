@@ -1,0 +1,21 @@
+{
+  "name": "samp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chart.js": "^2.9.4",
+    "electron": "^11.0.2",
+    "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "electron-packager": "^15.1.0"
+  }
+}
