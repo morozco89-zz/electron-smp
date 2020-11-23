@@ -96,8 +96,18 @@
 
         toggleECGBtn.addEventListener('click', (e) => {
             if (isReadingECG) {
+                // add this classes grey darken-3 and remove orange lighten-1
+                toggleECGBtn.classList.remove("orange")
+                toggleECGBtn.classList.remove("lighten-1")
+                toggleECGBtn.classList.add("grey")
+                toggleECGBtn.classList.add("darken-3")
                 stopReading(patient.ecg)
             } else {
+                // add this classes orange lighten-1 and remove grey darken-3
+                toggleECGBtn.classList.add("orange")
+                toggleECGBtn.classList.add("lighten-1")
+                toggleECGBtn.classList.remove("grey")
+                toggleECGBtn.classList.remove("darken-3")
                 startReading(patient.ecg)
             }
 
