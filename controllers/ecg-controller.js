@@ -1,6 +1,6 @@
 const ecgService = require('../services/ecg-service')
 const _ = require('lodash')
-const FREQUENCY = 200
+const FREQUENCY = 20
 let reader;
 
 const controller = {
