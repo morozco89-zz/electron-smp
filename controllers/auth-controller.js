@@ -1,5 +1,7 @@
 const authService = require('../services/auth-service')
 const { session } = require('electron')
+const URL = 'http://localhost'
+const COOKIE_SESSION_NAME = 'patient'
 
 const controller = {
     login: (viewWindow) => {
@@ -7,8 +9,8 @@ const controller = {
             try {
                 const patient = authService.login(user.email, user.pass)
                 session.defaultSession.cookies.set({
-                    url: 'http://localhost',
-                    name: 'patient',
+                    url: URL,
+                    name: COOKIE_SESSION_NAME,
                     value: JSON.stringify(patient)
                 }).then(() => {
                     viewWindow.webContents.send('login:success')
@@ -22,6 +24,14 @@ const controller = {
             }
         }
     },
+    logout: (viewWindow) => {
+        return (e) => {
+            session.defaultSession.cookies.remove(URL, COOKIE_SESSION_NAME)
+                .then(() => {
+                    viewWindow.webContents.send('logout:success')
+                })
+        }
+    }
 }
 
 module.exports = controller

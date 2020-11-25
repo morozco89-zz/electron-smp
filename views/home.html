@@ -10,7 +10,18 @@
 <body>
     <nav>
         <div class="nav-wrapper teal lighten-2">
-            <a class="brand-logo center">Monitoreo</a>
+
+            <div class="row">
+                <div class="col s2"></div>
+                <div class="col s8">
+                    <a class="brand-logo center">Monitoreo</a>
+                </div>
+                <div class="col s2 right-align">
+                    <a href="#" id="a-logout" class="m2">
+                        <i class="material-icons prefix" style="font-size: 2.25rem">exit_to_app</i>
+                    </a>
+                </div>
+            </div>
         </div>
     </nav>
     <br>
@@ -69,6 +80,7 @@
         const ageViewElement = document.querySelector('#age')
         const photoViewElement = document.querySelector('img')
         const ctxViewElement = document.getElementById('chartContainer');
+        const logoutViewElement = document.getElementById('a-logout')
 
         const toggleECGBtn = document.getElementById('btn-toggle-ecg')
 
@@ -94,6 +106,10 @@
             updateECG(reading)
         })
 
+        ipcRenderer.on('logout:success', (event) => {
+            location.href  = 'login.html'
+        })
+
         toggleECGBtn.addEventListener('click', (e) => {
             if (isReadingECG) {
                 // add this classes grey darken-3 and remove orange lighten-1
@@ -112,6 +128,11 @@
             }
 
             isReadingECG = !isReadingECG
+        })
+
+        logoutViewElement.addEventListener('click', (e) => {
+            e.preventDefault()
+            ipcRenderer.send('user:logout')
         })
 
         // Init

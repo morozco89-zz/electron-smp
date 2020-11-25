@@ -57,6 +57,7 @@ app.on('ready', () => {
 
     // Routes
     ipcMain.on('user:login', authController.login(mainWindow))
+    ipcMain.on('user:logout', authController.logout(mainWindow))
     ipcMain.on('patient:find-by-email', patientController.findUserByEmail(mainWindow))
     ipcMain.on('ecg:start-reading', ecgController.start(mainWindow))
     ipcMain.on('ecg:stop-reading', ecgController.stop)
