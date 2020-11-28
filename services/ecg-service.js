@@ -1,5 +1,7 @@
 const fs = require('fs')
 const path = require('path')
+const axios = require('../http/ecg-http')
+
 let dataArray = [];
 let cursor = 0;
 
@@ -27,6 +29,13 @@ const service = {
         const reading = dataArray[cursor]
         cursor++
         return reading
+    },
+    persist: (patientReading) => {
+        axios.post('/', patientReading).then(res => {
+            // console.log(res)
+        }).catch(err => {
+            console.log(err)
+        })
     }
 }
 

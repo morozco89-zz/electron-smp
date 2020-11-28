@@ -124,7 +124,7 @@
                 toggleECGBtn.classList.add("lighten-1")
                 toggleECGBtn.classList.remove("grey")
                 toggleECGBtn.classList.remove("darken-3")
-                startReading(patient.ecg)
+                startReading()
             }
 
             isReadingECG = !isReadingECG
@@ -191,8 +191,8 @@
             photoViewElement.src = `../assets/images/${patient.photo}`
         }
 
-        function startReading(id) {
-            ipcRenderer.send('ecg:start-reading', id)
+        function startReading() {
+            ipcRenderer.send('ecg:start-reading')
         }
 
         function stopReading() {
