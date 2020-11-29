@@ -17,9 +17,6 @@ const mainMenuTemplate = [
         label: "File",
         submenu: [
             {
-                label: 'Add Item',
-            },
-            {
                 label: 'Quit',
                 accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
                 click(){
