@@ -50,7 +50,7 @@ app.on('ready', () => {
     })
 
     // Full screen
-    //mainWindow.setFullScreen(true)
+    mainWindow.setFullScreen(true)
 
     // Routes
     ipcMain.on('user:login', authController.login(mainWindow))

@@ -34,8 +34,13 @@
                 <table>
                     <tbody>
                     <tr>
-                        <td colspan="2">
+                        <td>
                             <h4 id="name" style="margin: 0"></h4>
+                        </td>
+                        <td>
+                            <button type="button" id="btn-toggle-ecg" class="btn waves-effect waves-light grey darken-3">
+                                <i class="material-icons prefix" style="font-size: 2.25rem">favorite</i>
+                            </button>
                         </td>
                     </tr>
                     <tr>
@@ -55,15 +60,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col s12 right-align">
-                <button type="button" id="btn-toggle-ecg" class="btn btn-large waves-effect waves-light grey darken-3">
-                    <i class="material-icons prefix" style="font-size: 2.25rem">favorite</i>
-                </button>
-            </div>
-        </div>
-        <div class="row">
             <div class="col s12">
-                <canvas id="chartContainer" width="200" height="50"></canvas>
+                <canvas id="chartContainer" width="200" height="40"></canvas>
             </div>
         </div>
     </div>
