@@ -6,7 +6,7 @@ const patients = [
         rh: "O-",
         age: 31,
         pass: "111",
-        ecg: "nsr_patient_100",
+        ecg: "nsr_patient_100_ds_600",
         photo: "jhon-doe.png"
     },
     {
@@ -16,7 +16,7 @@ const patients = [
         rh: "A+",
         age: 59,
         pass: "111",
-        ecg: "bigemini_106",
+        ecg: "bigemini_106_ds_600",
         photo: "anna-marie.png"
     },
     {
@@ -26,7 +26,7 @@ const patients = [
         rh: "O+",
         age: 45,
         pass: "111",
-        ecg: "pvc_100",
+        ecg: "pvc_100_ds_600",
         photo: "franco-fantini.png"
     },
     {
@@ -36,7 +36,7 @@ const patients = [
         rh: "O+",
         age: 60,
         pass: "111",
-        ecg: "sdhb_231",
+        ecg: "sdhb_231_ds_600",
         photo: "aura-cortes.png"
     },
     {
@@ -46,7 +46,7 @@ const patients = [
         rh: "B+",
         age: 28,
         pass: "111",
-        ecg: "vt_106",
+        ecg: "vt_106_ds_600_heart_attack",
         photo: "elena-paoletta.png"
     },
 ]

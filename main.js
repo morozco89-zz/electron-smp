@@ -11,6 +11,8 @@ const { app, BrowserWindow, Menu, ipcMain } = electron
 
 let mainWindow;
 
+process.env.NODE_ENV = 'production'
+
 // Create menu template
 const mainMenuTemplate = [
     {
@@ -50,7 +52,7 @@ app.on('ready', () => {
     })
 
     // Full screen
-    mainWindow.setFullScreen(true)
+    // mainWindow.setFullScreen(true)
 
     // Routes
     ipcMain.on('user:login', authController.login(mainWindow))

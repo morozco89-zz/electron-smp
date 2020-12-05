@@ -3,8 +3,8 @@ const params = {
         ecgURL: 'http://localhost:3000/ecg'
     },
     prod: {
-        ecgURL: 'http://localhost:3000/ecg'
+        ecgURL: 'https://dsbp-smap-gateway.web.app/ecg'
     }
 }
 
-module.exports = params.dev
+module.exports = params.prod
